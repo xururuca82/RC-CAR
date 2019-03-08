@@ -1,0 +1,16 @@
+블루투스
+Label1-height:10px
+
+HorizontalArrangement
+--BTList-width:40%, shape:rounded(List picker)
+--Label2-height:10px
+
+Label3-height:10px
+
+horizontalArrangement
+--Label4-fontsize:16, text:블루투스 이름:
+--BTName-fontsize:17, text:00
+
+TinyDB1
+BluetoothClient1
+
