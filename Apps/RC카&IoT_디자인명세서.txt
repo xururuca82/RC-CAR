@@ -1,10 +1,15 @@
 *전체 스크린-AlignHorizontal:Center, AlignVertical:Top, TitleVisible:Unchecked
 
+*전체를 2부분으로 나눔-두영역 합쳐서 100%--> 상황에 따라서 퍼센테이지 분배
+-위쪽: 활동영역(VerticalArrangement)
+-아래쪽: GoMain 버튼 영역(VerticalArrangement)
+--GoMain-FontBold:checked, FontSize:14, Height:40px, Width:40%, shape:rounded, Text:다른 활동으로
+
 *블루투스
 Label1-height:10px
 
 HorizontalArrangement-AlignHorizontal:Right, AlignVertical:Top, Width:Fill parent
---BTList-FontBold:checked, FontSize:14, Width:40%, Shape:rounded(List picker)
+--BTList-FontBold:checked, FontSize:14, Width:40%, Shape:rounded, Text:블루투스 연결(List picker)
 --Label2-Width:10px
 
 Label3-Height:10px
@@ -15,4 +20,5 @@ horizontalArrangement
 
 TinyDB1
 BluetoothClient1
+
 
