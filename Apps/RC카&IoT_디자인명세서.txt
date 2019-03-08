@@ -5,7 +5,7 @@ Label1-height:10px
 
 HorizontalArrangement-AlignHorizontal:Right, AlignVertical:Top, Width:Fill parent
 --BTList-FontBold:checked, FontSize:14, Width:40%, Shape:rounded(List picker)
---Label2-Height:10px
+--Label2-Width:10px
 
 Label3-Height:10px
 
