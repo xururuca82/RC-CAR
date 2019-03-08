@@ -1,15 +1,17 @@
-블루투스
+*전체 스크린-AlignHorizontal:Center, AlignVertical:Top, TitleVisible:Unchecked
+
+*블루투스
 Label1-height:10px
 
-HorizontalArrangement
---BTList-width:40%, shape:rounded(List picker)
---Label2-height:10px
+HorizontalArrangement-AlignHorizontal:Right, AlignVertical:Top, Width:Fill parent
+--BTList-FontBold:checked, FontSize:14, Width:40%, Shape:rounded(List picker)
+--Label2-Height:10px
 
-Label3-height:10px
+Label3-Height:10px
 
 horizontalArrangement
---Label4-fontsize:16, text:블루투스 이름:
---BTName-fontsize:17, text:00
+--Label4-FontSize:16, Text:블루투스 이름:
+--BTName-FontBold:checked, Fontsize:17, Text:00(Label)
 
 TinyDB1
 BluetoothClient1
