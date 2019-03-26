@@ -5,6 +5,8 @@
  * - G : 녹색 경광등
  * - B : 파란색 경광등
  * - S : 경광등 끄기
+ * - h : 헤드라이트 끄기 켜기
+ * - f : 헤들라이트 끄기
  * - l : 왼쪽 깜박이
  * - r : 오른쪽 깜박이
  * - s : 깜박이 끄기
@@ -82,6 +84,7 @@ void loop() {
   if(input_sig=='b'){
     digitalWrite(BUZZER_PIN, HIGH);
     delay(150);
+    digitalWrite(BUZZER_PIN, LOW);
   }
 /*-------------------------------------------*/
   
