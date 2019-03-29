@@ -47,8 +47,9 @@ int const ENA = 10; // Speed
 int const INA = 12; // Direction
 int const ENB = 11;
 int const INB = 13;
-int r_speed = 90;
-int l_speed = 90;
+int const MIN_SPEED = 60;
+int r_speed = map(50, 1, 100, MIN_SPEED, 255);
+int l_speed = map(50, 1, 100, MIN_SPEED, 255);
 int mr_state = HIGH; // 오른쪽 모터 회전 방향
 int ml_state = HIGH;  // 왼쪽 모터 회전 방향
 
