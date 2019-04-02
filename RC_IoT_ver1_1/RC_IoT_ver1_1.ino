@@ -18,17 +18,24 @@
  * - 4 : 우회전
  */
 
-#include <MsTimer2.h>
 #include <Adafruit_NeoPixel.h>
 
 #define BUZZER_PIN 4
-#define NEO_PIN 3
+#define NEO_PIN 5
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(8, NEO_PIN, NEO_GRB+NEO_KHZ800);
 
 // 경광등 관련 전역변수
 uint32_t c;
 uint16_t led_idx = 0;
 bool neopixel_onoff_change_chk = true;
+
+int const w_delay_time = 80;
+unsigned long w_r_previous_millis = 0;
+unsigned long w_g_previous_millis = 0;
+unsigned long w_b_previous_millis = 0;
+bool w_r_chk = false;
+bool w_g_chk = false;
+bool w_b_chk = false;
 
 // 헤드라이트 관련 전역변수
 bool hd_chk = true;
@@ -91,32 +98,96 @@ void loop() {
 /*----------- 경광등을 켜고 끄기 ---------------*/
   // 빨간색 경광등 켜기
   if(input_sig == 'R'){    
-    MsTimer2::stop();
-    neopixel_off();
-    MsTimer2::set(80, neopixel_red_on);
-    MsTimer2::start();
+    w_r_previous_millis = millis();
+    w_r_chk = true;
+    w_g_chk = false;
+    w_b_chk = false;
+        
   }
 
+  if(w_r_chk) {
+    if(current_millis - w_r_previous_millis >= w_delay_time){
+      w_r_previous_millis = current_millis;
+      if(led_idx == 8) {
+        led_idx = 0;
+        if(neopixel_onoff_change_chk) neopixel_onoff_change_chk = false;
+        else neopixel_onoff_change_chk = true;
+      }
+      if(neopixel_onoff_change_chk) c=strip.Color(30,0,0);
+      else c = 0;
+  
+      strip.setPixelColor(led_idx, c);
+      strip.show();
+      led_idx++;
+    }
+  } else {
+    w_r_previous_millis = 0;    
+  }
+  
   // 녹색 경광등 켜기
   if(input_sig == 'G'){
-    MsTimer2::stop();
-    neopixel_off();
-    MsTimer2::set(80, neopixel_green_on);
-    MsTimer2::start();
+    w_g_previous_millis = millis();
+    w_g_chk = true;   
+    w_r_chk = false;
+    w_b_chk = false;
+  }
+
+  if(w_g_chk) {
+    if(current_millis - w_g_previous_millis >= w_delay_time){
+      w_g_previous_millis = current_millis;
+      if(led_idx == 8) {
+        led_idx = 0;
+        if(neopixel_onoff_change_chk) neopixel_onoff_change_chk = false;
+        else neopixel_onoff_change_chk = true;
+      }
+      if(neopixel_onoff_change_chk) c=strip.Color(0,30,0);
+      else c = 0;
+  
+      strip.setPixelColor(led_idx, c);
+      strip.show();
+      led_idx++;
+    }
+  }else {
+    w_g_previous_millis = 0;    
   }
 
   // 파란색 경광등 켜기
   if(input_sig == 'B'){
-    MsTimer2::stop();
-    neopixel_off();
-    MsTimer2::set(80, neopixel_blue_on);
-    MsTimer2::start();
+    w_b_previous_millis = millis();
+    w_b_chk = true;   
+    w_r_chk = false;
+    w_g_chk = false;
+  }
+
+  if(w_b_chk) {
+    if(current_millis - w_b_previous_millis >= w_delay_time){
+      w_b_previous_millis = current_millis;
+      if(led_idx == 8) {
+        led_idx = 0;
+        if(neopixel_onoff_change_chk) neopixel_onoff_change_chk = false;
+        else neopixel_onoff_change_chk = true;
+      }
+      if(neopixel_onoff_change_chk) c=strip.Color(0,0,30);
+      else c = 0;
+  
+      strip.setPixelColor(led_idx, c);
+      strip.show();
+      led_idx++;
+    }
+  }else {
+    w_b_previous_millis = 0;    
   }
 
   // 경광등 끄기
   if(input_sig == 'S'){
-    MsTimer2::stop();
-    neopixel_off();
+   w_r_chk = false;
+   w_g_chk = false;
+   w_b_chk = false;
+   uint32_t c_off = 0;
+    for(uint16_t i=0;i<strip.numPixels();i++){
+      strip.setPixelColor(i,c_off);
+      strip.show(); 
+    }
   }
 /*------------------------------------*/
 
@@ -231,59 +302,4 @@ void loop() {
     analogWrite(ENA, r_speed);
   }
 /*-------------------------------------*/
-}
-
-
-// 경광등 빨간색
-void neopixel_red_on(){
-  if(led_idx == 8){
-    led_idx = 0;
-    if(neopixel_onoff_change_chk) neopixel_onoff_change_chk = false;
-    else neopixel_onoff_change_chk = true;
-  }
-  if(neopixel_onoff_change_chk) c = strip.Color(30,0,0);
-  else c = 0;
-  
-  strip.setPixelColor(led_idx,c);
-  strip.show();
-  led_idx++;
-}
-
-// 경광등 녹색
-void neopixel_green_on(){
-  if(led_idx == 8){
-    led_idx = 0;
-    if(neopixel_onoff_change_chk) neopixel_onoff_change_chk = false;
-    else neopixel_onoff_change_chk = true;
-  }
-  if(neopixel_onoff_change_chk) c = strip.Color(0,30,0);
-  else c = 0;
-  
-  strip.setPixelColor(led_idx,c);
-  strip.show();
-  led_idx++;
-}
-
-// 경광등 파란색
-void neopixel_blue_on(){
-  if(led_idx == 8){
-    led_idx = 0;
-    if(neopixel_onoff_change_chk) neopixel_onoff_change_chk = false;
-    else neopixel_onoff_change_chk = true;
-  }
-  if(neopixel_onoff_change_chk) c = strip.Color(0,0,30);
-  else c = 0;
-  
-  strip.setPixelColor(led_idx,c);
-  strip.show();
-  led_idx++;
-}
-
-// 경광등 끄기
-void neopixel_off(){
-  uint32_t c_off = 0;
-  for(uint16_t i=0;i<strip.numPixels();i++){
-    strip.setPixelColor(i,c_off);
-    strip.show(); 
-  }
 }
