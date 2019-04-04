@@ -3,7 +3,7 @@ int const ENA = 10; // Speed
 int const INA = 12; // Direction
 int const ENB = 11;
 int const INB = 13;
-int r_speed = 70;
+int r_speed = 90;
 int l_speed = 90;
 
 void setup() { 
