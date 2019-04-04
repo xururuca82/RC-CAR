@@ -48,8 +48,7 @@ void setup() {
   servo.attach(SERVO_PIN, min_value, max_value);
   servo.write(90);
   delay(100);
-  servo.detach();
-  
+  servo.detach();  
 }
 
 void loop() {
