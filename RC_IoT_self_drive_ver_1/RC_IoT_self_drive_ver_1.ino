@@ -406,12 +406,12 @@ void loop() {
         digitalWrite(INA, HIGH);
         digitalWrite(INB, HIGH);
         analogWrite(ENA, 0);
-        analogWrite(ENB, 80);
+        analogWrite(ENB, l_speed);
       } else {
         delay(100);
         digitalWrite(INA, HIGH);
         digitalWrite(INB, HIGH);
-        analogWrite(ENA, 90);
+        analogWrite(ENA, r_speed);
         analogWrite(ENB, 0);
       }
 
