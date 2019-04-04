@@ -17,6 +17,8 @@ int max_value = 2400;
 bool self_drive_chk = false;
 bool servo_chk = true;
 
+int r_dis_opti=0;
+
 
 
 // 모터 관련 전역변수
@@ -24,8 +26,8 @@ int const ENA = 6; // Speed
 int const INA = 12; // Direction
 int const ENB = 11;
 int const INB = 13;
-int r_speed = 90;
-int l_speed = 90;
+int r_speed = 95;
+int l_speed = 80;
 int mr_state = HIGH; // 오른쪽 모터 회전 방향
 int ml_state = HIGH;  // 왼쪽 모터 회전 방향
 
@@ -45,6 +47,8 @@ void setup() {
   //서보모터
   servo.attach(SERVO_PIN, min_value, max_value);
   servo.write(90);
+  delay(100);
+  servo.detach();
   
 }
 
@@ -54,7 +58,10 @@ void loop() {
   if(Serial.available()){
     Serial.write(input_sig);
   }    
-  
+
+  servo.attach(SERVO_PIN);  
+  servo.write(90);
+  delay(100);
 //  초음파 센서 
   digitalWrite(TRIG, LOW);
   digitalWrite(ECHO, LOW);
@@ -75,7 +82,7 @@ void loop() {
   }
   
   if(true){
-    if(distance < 15 && distance > 1){    
+    if(distance < 20 && distance > 1){    
       int l_dis = 0;
       int r_dis = 0;
       
@@ -97,8 +104,6 @@ void loop() {
 
           duration = pulseIn(ECHO, HIGH);
           float l_dis = duration/29.0/2.0;
-          Serial.print("175: ");
-          Serial.println(l_dis);
         }
         delay(600);        
         servo.write(20);
@@ -113,9 +118,7 @@ void loop() {
 
           duration = pulseIn(ECHO, HIGH);
           float r_dis = duration/29.0/2.0;
-          r_dis = r_dis - 15;
-          Serial.print("15: ");
-          Serial.println(r_dis);
+          r_dis_opti = (int)r_dis - 15;      
         }        
         delay(1200);
         servo.write(90);
@@ -124,19 +127,23 @@ void loop() {
         servo_chk = false;
       }
 
-      if(r_dis < 5.0) {
+      servo.detach();
+      
+      if(r_dis_opti < 20) {
+        delay(100);
         digitalWrite(INA, HIGH);
         digitalWrite(INB, HIGH);
         analogWrite(ENA, 0);
-        analogWrite(ENB, 90);
+        analogWrite(ENB, 80);
       } else {
+        delay(100);
         digitalWrite(INA, HIGH);
         digitalWrite(INB, HIGH);
         analogWrite(ENA, 90);
         analogWrite(ENB, 0);
       }
 
-      delay(3000);
+      delay(900);
       
     } else {
       digitalWrite(A5, LOW);
