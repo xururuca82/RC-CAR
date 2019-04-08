@@ -2,12 +2,12 @@
 #define ECHO 8
 
 // 모터 관련 전역변수
-int const ENA = 6; // Speed
+int const ENA = 10; // Speed
 int const INA = 12; // Direction
 int const ENB = 11;
 int const INB = 13;
-int r_speed = 95;
-int l_speed = 80;
+int r_speed = 90;
+int l_speed = 90;
 int mr_state = HIGH; // 오른쪽 모터 회전 방향
 int ml_state = HIGH;  // 왼쪽 모터 회전 방향
 
@@ -41,10 +41,22 @@ void loop() {
 
   if(distance < 20 && distance > 1){
     delay(100);
-    analogWrite(ENA, l_speed-10);
+    digitalWrite(INA, LOW);
+    digitalWrite(INB, LOW);
+    analogWrite(ENA, l_speed);
     analogWrite(ENB, r_speed);
     delay(1000);
-  } else {    
+    analogWrite(ENA, 0);
+    analogWrite(ENB, 0);
+    delay(500);
+    digitalWrite(INA, HIGH);
+    digitalWrite(INB, HIGH);    
+    analogWrite(ENA, l_speed-10);
+    analogWrite(ENB, r_speed+40);
+    delay(1000);
+  } else {
+    digitalWrite(INA, HIGH);
+    digitalWrite(INB, HIGH);  
     analogWrite(ENA, r_speed);
     analogWrite(ENB, l_speed);
   }
