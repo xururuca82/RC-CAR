@@ -37,6 +37,9 @@ Servo servo;
 // 자율주행차 관련 전역변수
 int min_value = 544;
 int max_value = 2400;
+float distance = 0.0;
+unsigned long duration = 0;
+bool sonar_chk = false;
 bool self_drive_chk = false;
 bool servo_chk = true;
 int r_dis_opti=0;
@@ -47,7 +50,7 @@ uint32_t c;
 uint16_t led_idx = 0;
 bool neopixel_onoff_change_chk = true;
 
-int const w_delay_time = 8;
+int const w_delay_time = 80;
 unsigned long w_r_previous_millis = 0;
 unsigned long w_g_previous_millis = 0;
 unsigned long w_b_previous_millis = 0;
@@ -108,6 +111,8 @@ void setup() {
 
 void loop() {
   unsigned long current_millis = millis();
+  unsigned long current_micros_start = micros();
+  unsigned long current_micros_end = micros();
   char input_sig = Serial.read();
 
   if(Serial.available()){
@@ -121,15 +126,17 @@ void loop() {
 /*-------------------------------------------*/
   
 /*---------- 초음파센서 거리 검출 --------------*/
-  digitalWrite(TRIG, LOW);
-  digitalWrite(ECHO, LOW);
-  delayMicroseconds(2);
-  digitalWrite(TRIG, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(ECHO, LOW);
-
-  unsigned long duration = pulseIn(ECHO, HIGH);
-  float distance = duration/29.0/2.0; 
+  if(sonar_chk) {
+    digitalWrite(TRIG, LOW);
+    digitalWrite(ECHO, LOW);    
+    delayMicroseconds(2);
+    digitalWrite(TRIG, HIGH);  
+    delayMicroseconds(10);
+    digitalWrite(ECHO, LOW);  
+    
+    duration = pulseIn(ECHO, HIGH);
+    distance = duration/29.0/2.0; 
+  }
 /*-------------------------------------------*/
 
 /*------------ 버저 신호가 들어 왔을 때 ---------*/
@@ -146,8 +153,7 @@ void loop() {
     w_r_previous_millis = millis();
     w_r_chk = true;
     w_g_chk = false;
-    w_b_chk = false;
-        
+    w_b_chk = false;        
   }
 
   if(w_r_chk) {
@@ -351,6 +357,7 @@ void loop() {
 /*----------- 자율주행 시작 -------------*/
   if(input_sig == '5') {
     self_drive_chk = true;
+    sonar_chk = true;
   }
   
   if(self_drive_chk){
@@ -433,6 +440,7 @@ void loop() {
 /*---------- 자율주행 멈춤 --------------*/
 if(input_sig == '6') {
     self_drive_chk = false;    
+    sonar_chk = false;
   }
 /*-------------------------------------*/  
 }
