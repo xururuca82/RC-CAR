@@ -8,7 +8,7 @@
 
 #define TRIG 7
 #define ECHO 8
-#define SERVO_PIN 9
+#define SERVO_PIN 6
 
 Servo servo;
 
@@ -26,8 +26,8 @@ int const ENA = 6; // Speed
 int const INA = 12; // Direction
 int const ENB = 11;
 int const INB = 13;
-int r_speed = 95;
-int l_speed = 80;
+int r_speed = 90;
+int l_speed = 90;
 int mr_state = HIGH; // 오른쪽 모터 회전 방향
 int ml_state = HIGH;  // 왼쪽 모터 회전 방향
 
@@ -71,9 +71,6 @@ void loop() {
 
   unsigned long duration = pulseIn(ECHO, HIGH);
   float distance = duration/29.0/2.0; 
-
-  Serial.print("90: ");
-  Serial.println(distance);
 
 // 자율주행자동차
   if(input_sig == '5') {
