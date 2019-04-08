@@ -45,15 +45,7 @@ void loop() {
     digitalWrite(INB, LOW);
     analogWrite(ENA, l_speed);
     analogWrite(ENB, r_speed);
-    delay(1000);
-    analogWrite(ENA, 0);
-    analogWrite(ENB, 0);
-    delay(500);
-    digitalWrite(INA, HIGH);
-    digitalWrite(INB, HIGH);    
-    analogWrite(ENA, l_speed-10);
-    analogWrite(ENB, r_speed+40);
-    delay(1000);
+    delay(2000);
   } else {
     digitalWrite(INA, HIGH);
     digitalWrite(INB, HIGH);  
