@@ -80,7 +80,7 @@ void loop() {
     self_drive_chk = true;
   }
   
-  if(true){
+  if(self_drive_chk){
     if(distance < 20 && distance > 1){    
       int l_dis = 0;
       int r_dis = 0;
