@@ -100,10 +100,10 @@ void setup() {
   pinMode(A5, OUTPUT);
 
   //서보모터 초기값 세팅
-  servo.attach(SERVO_PIN, min_value, max_value);
-  servo.write(90);
-  delay(100);
-  servo.detach();
+//  servo.attach(SERVO_PIN, min_value, max_value);
+//  servo.write(90);
+//  delay(100);
+//  servo.detach();
   
   strip.begin();
   strip.show();
@@ -111,8 +111,6 @@ void setup() {
 
 void loop() {
   unsigned long current_millis = millis();
-  unsigned long current_micros_start = micros();
-  unsigned long current_micros_end = micros();
   char input_sig = Serial.read();
 
   if(Serial.available()){
@@ -125,20 +123,6 @@ void loop() {
 //  delay(100);
 /*-------------------------------------------*/
   
-/*---------- 초음파센서 거리 검출 --------------*/
-  if(sonar_chk) {
-    digitalWrite(TRIG, LOW);
-    digitalWrite(ECHO, LOW);    
-    delayMicroseconds(2);
-    digitalWrite(TRIG, HIGH);  
-    delayMicroseconds(10);
-    digitalWrite(ECHO, LOW);  
-    
-    duration = pulseIn(ECHO, HIGH);
-    distance = duration/29.0/2.0; 
-  }
-/*-------------------------------------------*/
-
 /*------------ 버저 신호가 들어 왔을 때 ---------*/
   if(input_sig=='b'){
     digitalWrite(BUZZER_PIN, HIGH);
@@ -359,6 +343,20 @@ void loop() {
     self_drive_chk = true;
     sonar_chk = true;
   }
+
+  /*---------- 초음파센서 거리 검출 --------------*/
+  if(sonar_chk) {
+    digitalWrite(TRIG, LOW);
+    digitalWrite(ECHO, LOW);    
+    delayMicroseconds(2);
+    digitalWrite(TRIG, HIGH);  
+    delayMicroseconds(10);
+    digitalWrite(ECHO, LOW);  
+    
+    duration = pulseIn(ECHO, HIGH);
+    distance = duration/29.0/2.0; 
+  }
+/*-------------------------------------------*/
   
   if(self_drive_chk){
     if(distance < 20 && distance > 1){    
@@ -431,9 +429,6 @@ void loop() {
       analogWrite(ENA, r_speed);
       analogWrite(ENB, l_speed);
     }
-  } else {
-    analogWrite(ENA,0);
-    analogWrite(ENB,0);
   }
 /*-------------------------------------*/
 
@@ -441,6 +436,8 @@ void loop() {
 if(input_sig == '6') {
     self_drive_chk = false;    
     sonar_chk = false;
+    analogWrite(ENA, 0);
+    analogWrite(ENB, 0);
   }
 /*-------------------------------------*/  
 }
