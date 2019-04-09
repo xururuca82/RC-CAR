@@ -75,7 +75,7 @@ int const ENA = 6; // Speed
 int const INA = 12; // Direction
 int const ENB = 11;
 int const INB = 13;
-int r_speed = 90;
+int r_speed = 106;
 int l_speed = 90;
 int mr_state = HIGH; // 오른쪽 모터 회전 방향
 int ml_state = HIGH;  // 왼쪽 모터 회전 방향
@@ -100,10 +100,10 @@ void setup() {
   pinMode(A5, OUTPUT);
 
   //서보모터 초기값 세팅
-//  servo.attach(SERVO_PIN, min_value, max_value);
-//  servo.write(90);
-//  delay(100);
-//  servo.detach();
+  servo.attach(SERVO_PIN, min_value, max_value);
+  servo.write(90);
+  delay(100);
+  servo.detach();
   
   strip.begin();
   strip.show();
@@ -299,6 +299,7 @@ void loop() {
   
   // 전진
   if(input_sig == '1'){
+    r_speed = 106;
     digitalWrite(INA, HIGH);
     digitalWrite(INB, HIGH);
     analogWrite(ENA, r_speed);
@@ -309,6 +310,7 @@ void loop() {
 
   // 후진
   if(input_sig == '2'){
+    r_speed = 95;
     digitalWrite(INA, LOW);
     digitalWrite(INB, LOW);
     analogWrite(ENA, r_speed);
@@ -360,6 +362,7 @@ void loop() {
   
   if(self_drive_chk){
     if(distance < 20 && distance > 1){    
+      servo.attach(SERVO_PIN);  
       int l_dis = 0;
       int r_dis = 0;
       
@@ -420,7 +423,7 @@ void loop() {
         analogWrite(ENB, 0);
       }
 
-      delay(900);
+      delay(800);
       
     } else {
       digitalWrite(A5, LOW);
