@@ -398,7 +398,7 @@ void loop() {
 
           duration = pulseIn(ECHO, HIGH);
           float r_dis = duration/29.0/2.0;
-          r_dis_opti = (int)r_dis - 15;      
+//          r_dis_opti = (int)r_dis - 15;      
         }        
         delay(1200);
         servo.write(90);
@@ -409,7 +409,7 @@ void loop() {
 
       servo.detach();
       
-      if(r_dis_opti < 20) {
+      if(r_dis > l_dis) {
         delay(100);
         digitalWrite(INA, HIGH);
         digitalWrite(INB, HIGH);
